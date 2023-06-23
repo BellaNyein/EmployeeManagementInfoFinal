@@ -1,0 +1,134 @@
+﻿@model EmployeeManagementInfo.Models.ViewModel.EmployeeViewListModel
+
+<form method="post" asp-route-Id="@Model.Employee.empNo" asp-action="DeletePost">
+    <input asp-for="Employee.empNo" hidden />
+    <div class="border p-3">
+        <div class="form-group row">
+            <h2 class="text-info pl-3">Delete Employee</h2>
+        </div>
+        <div class="row">
+            <div class="col-8">
+                <div class="form-group row p-2">
+                    <div class="col-4">
+                        <label asp-for="Employee.empName">Employee Name</label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="Employee.empName" disabled class="form-control" />
+                        <span asp-validation-for="Employee.empName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row p-2">
+                    <div class="col-4">
+                        <label asp-for="Employee.DOB">Date of Birth</label>
+                    </div>
+                    <div class="col-8">
+                        <input type="date" asp-for="Employee.DOB" disabled class="form-control" />
+                        <span asp-validation-for="Employee.DOB" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row p-2">
+                    <div class="col-4">
+                        <label asp-for="Employee.gender">Gender</label>
+                    </div>
+                    <div class="col-8">
+                        <select asp-for="Employee.gender">
+                            <option>Female</option>
+                            <option>Male</option>
+                        </select>
+                        <span asp-validation-for="Employee.gender" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row p-2">
+                    <div class="col-4">
+                        <label asp-for="departmentId">Department</label>
+                    </div>
+                    <div class="col-8">
+                        <select asp-for="departmentId" disabled class="form-control depid">
+                            @{
+                                foreach (var dep in Model.DepartmentSelectList)
+                                {
+                                    <option value="@dep.depId">@dep.depname</option>
+
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row p-2">
+                    <div class="col-4">
+                        <label asp-for="positionId">Position</label>
+                    </div>
+                    <div class="col-8">
+                        <select asp-for="positionId" disabled class="form-control posid">
+                            @{
+                                foreach (var pos in Model.PositionSelectList)
+                                {
+                                    <option class="posdep-@pos.DepartmentId" value="@pos.posId">@pos.positionName</option>
+
+                                }
+                            }
+                        </select>
+
+                    </div>
+                </div>
+                <div class="form-group row p-2">
+                    <div class="col-8 offset-4 row">
+                        <div class="col">
+                            <input type="submit" class="btn btn-info w-100" value="Delete" />
+                        </div>
+                        <div class="col">
+                            <a asp-action="Index" class="btn btn-success w-100">Back</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>
+
+@section Scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $(".depid").each(function (index) //loop department select box
+            {
+                var position = $(".posid option");
+
+                position.css("display", "none"); //don't show position select box option
+
+                var a = ".posdep-" + $(this).val();
+                var posdep = $(a);
+
+                posdep.css("display", "block");
+            })
+        });
+
+
+        $(".depid").click(function () {
+            $(".posid").find(":selected").removeAttr("selected");
+            var position = $(".posid option");
+            //console.log($(".posid").find("option:selected"));
+            position.css("display", "none"); //don't show position select box option
+
+            var a = ".posdep-" + $(this).val();
+            var posdep = $(a);
+            //console.log($(".posid").find(":selected").val());
+
+            posdep.css("display", "block");
+            //console.log($(".posdep-"+$(this).val()+" option:eq(0)"));
+            console.log($(".posid option:visible"));
+            var i = 0;
+            $(".posid option").each(function () {
+                if ($(this).css("display") == "block") {
+                    if (i == 0) {
+                        $(".posid").val($(this).val()).change() //selected
+                        i = 1;
+                    }
+
+                }
+            })
+        })
+    </script>
+
+}

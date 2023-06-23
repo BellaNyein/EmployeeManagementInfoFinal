@@ -1,0 +1,90 @@
+﻿@model IEnumerable<EmployeeManagementInfo.Models.ViewModel.EmployeeVM>
+
+<div class="container p-3 bg-white">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-bg-secondary">Employee Info</h2>
+        </div>
+        <div class="col-6 text-end">
+            <div class="row">
+                <form method="post" asp-action="Search">
+                    <div class="row">
+                        <div class="col-5">
+                            <input type="text" class="form-control" name="searchStr" />
+                        </div>
+                        <div class="col-2 text-start">
+                            <input type="submit" class="btn btn-info" value="Search" />
+                        </div>
+                        <div class="col text-end">
+                            <a asp-controller="Employee" asp-action="Create" class="btn btn-primary">
+                                <i class="fas fa-plus"></i>&nbsp;Create New Employee
+                            </a>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+
+    <br /> <br />
+    @if (Model.Count() > 0)
+    {
+        <table class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>
+                        Employee No
+                    </th>
+                    <th>
+                        Employee Name
+                    </th>
+                    <th>
+                        Date of Birth
+                    </th>
+                    <th>
+                        Gender
+                    </th>
+                    <th>
+                        Department
+                    </th>
+                    <th>
+                        Position
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var obj in Model)
+                {
+                    <tr>
+                        <td width="10%">@obj.empNo</td>
+                        <td width="20%">@obj.empName</td>
+                        <td width="20%">@obj.DOB.ToString("dd/MM/yyyy")</td>
+                        <td width="10%">@obj.gender</td>
+                        <td width="20%">@obj.depname</td>
+                        <td width="20%">@obj.positionName</td>
+                        <td class="text-center">
+                            <div class="w-65 btn-group" role="group">
+                                <a asp-controller="Employee" asp-route-Id="@obj.empNo" asp-action="Edit" class="btn btn-primary mx-1">
+                                    Edit
+                                </a>
+                                <a asp-controller="Employee" asp-route-Id="@obj.empNo" asp-action="Delete" class="btn btn-danger mx-1">
+                                    Delete
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No employee exists.</p>
+    }
+
+
+</div>
+

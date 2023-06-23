@@ -1,0 +1,71 @@
+﻿@model IEnumerable<EmployeeManagementInfo.Models.ViewModel.EmployeeVM>
+
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <h1>Search Result</h1>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-action="Index" class="btn btn-primary">Back To Home</a>
+        </div>
+    </div>
+
+
+
+    @if (Model.Count() > 0)
+    {
+        <table class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>
+                        Employee No
+                    </th>
+                    <th>
+                        Employee Name
+                    </th>
+                    <th>
+                        Date of Birth
+                    </th>
+                    <th>
+                        Gender
+                    </th>
+                    <th>
+                        Department
+                    </th>
+                    <th>
+                        Position
+                    </th>
+                   @* <th></th>*@
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var obj in Model)
+                {
+                    <tr>
+                        <td width="10%">@obj.empNo</td>
+                        <td width="20%">@obj.empName</td>
+                        <td width="20%">@obj.DOB.ToString("dd/MM/yyyy")</td>
+                        <td width="10%">@obj.gender</td>
+                        <td width="20%">@obj.depname</td>
+                        <td width="20%">@obj.positionName</td>
+                        @*<td class="text-center">
+                            <div class="w-65 btn-group" role="group">
+                                <a asp-controller="Employee" asp-route-Id="@obj.empNo" asp-action="Edit" class="btn btn-primary mx-1">
+                                    Edit
+                                </a>
+                                <a asp-controller="Employee" asp-route-Id="@obj.empNo" asp-action="Delete" class="btn btn-danger mx-1">
+                                    Delete
+                                </a>
+                            </div>
+                        </td>*@
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No result.</p>
+    }
+
+</div>
